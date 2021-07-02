@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
@@ -49,6 +50,8 @@ public class DiscovergyApiClient {
 	@ConfigProperty(name = "discovergy.clientid")
 	String clientId;
 	
+	String tempClientId = "";
+	
 
 	private OAuth10aService authenticationService;
 	private OAuth1AccessToken accessToken;
@@ -72,7 +75,7 @@ public class DiscovergyApiClient {
 		accessToken = authenticationService.getAccessToken(requestToken, verifier);
 		renewalTime = LocalDateTime.now();
 		
-		log.info("OAuth tokens renewed.");
+		log.info("OAuth tokens renewed. Used client id: " + tempClientId);
 	}
 
 	public DiscovergyApi getApi() {
@@ -88,7 +91,12 @@ public class DiscovergyApiClient {
 			renewTokens();
 		}
 		authenticationService.signRequest(accessToken, request);
-		return authenticationService.execute(request);
+		Response response = authenticationService.execute(request);
+		if (response.getCode() == 401 || response.getCode() == 403 || response.getCode() == 429) {
+			renewTokens();
+			response = executeRequest(request);
+		}
+		return response;
 	}
 
 	/**
@@ -113,7 +121,8 @@ public class DiscovergyApiClient {
 	}
 
 	private Map<String, String> getConsumerToken() throws IOException {
-		byte[] rawRequest = ("client=" + clientId).getBytes(StandardCharsets.UTF_8);
+		tempClientId = clientId + new Random().nextInt(1000);
+		byte[] rawRequest = ("client=" + tempClientId).getBytes(StandardCharsets.UTF_8);
 		HttpURLConnection connection = getConnection(api.getBaseAddress() + "/oauth1/consumer_token", "POST", true, true);
 		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 		connection.setRequestProperty("Content-Length", Integer.toString(rawRequest.length));
