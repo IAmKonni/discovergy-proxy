@@ -114,6 +114,19 @@
 							<goal>generate-code-tests</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>package</id>
+						<goals>
+							<goal>native-image</goal>
+						</goals>
+						<configuration>
+							<dockerBuild>${dockerBuild}</dockerBuild>
+							<additionalBuildArgs>
+								<additionalBuildArg>-H:EnableURLProtocols=https</additionalBuildArg>
+								<additionalBuildArg>-H:EnableURLProtocols=http</additionalBuildArg>
+							</additionalBuildArgs>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
