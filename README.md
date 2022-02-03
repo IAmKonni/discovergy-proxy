@@ -2,8 +2,6 @@
 
 This project is a quarkus based implementation for accessing the `\last_reading` endpoint of the [Discovergy API](https://api.discovergy.com/docs/) without OAuth 1.0 authorization. The proxy services encapsulates the OAuth autorization and exposes the data to an unauthorized endpoint, which can be integrated more easily in different tools and platforms, for example Node-RED.
 
-If for accessing the you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
-
 ## Installation / Setup
 
 The REST endpoint is exposed on port 8080.
