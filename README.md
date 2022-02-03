@@ -6,9 +6,9 @@ If for accessing the you want to learn more about Quarkus, please visit its webs
 
 ## Installation / Setup
 
-The REST endpoint is exposed on port 8080. There is nothing else to configure.
+The REST endpoint is exposed on port 8080.
 
-This is am example docker-compose file that can be used.
+This is am example docker-compose file that can be used. Please replace the environment variables to your personal Discovergy credentials.
 
 ```docker-compose.yml
 version: "3.7"
