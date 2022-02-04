@@ -6,7 +6,7 @@ This project is a quarkus based implementation for accessing the `\last_reading`
 
 The REST endpoint is exposed on port 8080.
 
-This is am example docker-compose file that can be used. Please replace the environment variables to your personal Discovergy credentials.
+This is an example docker-compose file that can be used. Please replace the environment variables to your personal Discovergy credentials.
 
 ```docker-compose.yml
 version: "3.7"
