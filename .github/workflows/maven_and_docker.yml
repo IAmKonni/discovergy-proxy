@@ -47,7 +47,7 @@ jobs:
         # Docker Hub password
         password: ${{secrets.DOCKER_PASSWORD}}
         # Docker Hub repository in the format `<namespace>/<name>` Default: `github.repository`
-        repository: iamkonni/disovergy-proxy # optional
+        repository: iamkonni/discovergy-proxy # optional
         # Docker Hub repository short description Input exceeding 100 characters will be truncated
         #short-description: # optional
         # Path to the repository readme Default: `./README.md`
