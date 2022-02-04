@@ -24,12 +24,6 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package -Pnative -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true --file pom.xml
-        
-  docker-push:
-  
-    runs-on: ubuntu-latest
-
-    steps:
     - name: docker login
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
@@ -39,4 +33,24 @@ jobs:
       run: docker build . --file src/main/docker/Dockerfile.native-distroless -t iamkonni/discovergy-proxy --tag iamkonni/discovergy-proxy:$(date +%s)
     - name: Docker push
       run: docker push ${{secrets.DOCKER_USER}}/discovergy-proxy
+        
+  docker-description:
+  
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Docker Hub Description
+      uses: peter-evans/dockerhub-description@v2.4.3
+      with:
+        # Docker Hub username
+        username: ${{secrets.DOCKER_USER}}
+        # Docker Hub password
+        password: ${{secrets.DOCKER_PASSWORD}}
+        # Docker Hub repository in the format `<namespace>/<name>` Default: `github.repository`
+        repository: iamkonni/disovergy-proy # optional
+        # Docker Hub repository short description Input exceeding 100 characters will be truncated
+        #short-description: # optional
+        # Path to the repository readme Default: `./README.md`
+        #readme-filepath: # optional
+    
 
