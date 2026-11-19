@@ -17,6 +17,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 import io.quarkus.test.common.QuarkusTestResourceLifecycleManager;
+import rocks.konrath.discovergy.client.OAuth1Signer.Credentials;
 
 /**
  * Small in-process fake of the inexogy API that implements the OAuth 1.0a flow and
