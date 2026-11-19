@@ -22,7 +22,6 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public final class OAuth1Signer {
 
-	private static final SecureRandom RANDOM = new SecureRandom();
 	private static final String UNRESERVED = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
 
 	private OAuth1Signer() {
@@ -128,7 +127,8 @@ public final class OAuth1Signer {
 
 	private static String nonce() {
 		byte[] bytes = new byte[16];
-		RANDOM.nextBytes(bytes);
+		// created per call: a static SecureRandom would be baked into the native image heap
+		new SecureRandom().nextBytes(bytes);
 		return HexFormat.of().formatHex(bytes);
 	}
 

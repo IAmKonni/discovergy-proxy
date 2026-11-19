@@ -6,11 +6,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import jakarta.annotation.PostConstruct;
@@ -36,7 +36,6 @@ import rocks.konrath.discovergy.client.OAuth1Signer.Credentials;
 public class InexogyClient {
 
 	private static final Logger LOG = Logger.getLogger(InexogyClient.class);
-	private static final SecureRandom RANDOM = new SecureRandom();
 
 	@ConfigProperty(name = "discovergy.base-url", defaultValue = "https://api.inexogy.com/public/v1")
 	String baseUrl;
@@ -116,7 +115,7 @@ public class InexogyClient {
 	}
 
 	private Session login() throws IOException, InterruptedException {
-		String client = clientId + RANDOM.nextInt(1000);
+		String client = clientId + ThreadLocalRandom.current().nextInt(1000);
 
 		// 1. consumer token
 		String consumerJson = send(HttpRequest.newBuilder(URI.create(baseUrl + "/oauth1/consumer_token"))
